@@ -47,33 +47,33 @@
 
 </template>
 <script>
-import {urls} from './config'
-import Post from './compoents/Post.vue'
-import Archives from './compoents/Archives.vue'
-import Hot from './compoents/Hot.vue'
-import ArchiveDetail from './compoents/ArchiveDetail.vue'
-import PostDetail from './compoents/PostDetail.vue'
+import { urls } from "./config";
+import Post from "./compoents/Post.vue";
+import Archives from "./compoents/Archives.vue";
+import Hot from "./compoents/Hot.vue";
+import ArchiveDetail from "./compoents/ArchiveDetail.vue";
+import PostDetail from "./compoents/PostDetail.vue";
 
 const preventWindowScroll = () => {
   // 阻止弹窗弹出时，窗口滚动
   // const [posx, posy] = [window.scrollX, window.scrollY]
   // window.onscroll = () => window.scrollTo(posx, posy)
-  const before = document.body.clientWidth
-  document.body.style.overflow = 'hidden'
-  const after = document.body.clientWidth
-  document.body.style.paddingRight = `${after - before}px`
-}
+  const before = document.body.clientWidth;
+  document.body.style.overflow = "hidden";
+  const after = document.body.clientWidth;
+  document.body.style.paddingRight = `${after - before}px`;
+};
 
 const allowWindowScroll = () => {
   // 允许窗口滚动
   // window.onscroll = null
-  document.body.style.overflow = ''
-  document.body.style.paddingRight = `0px`
-}
+  document.body.style.overflow = "";
+  document.body.style.paddingRight = `0px`;
+};
 
 export default {
-  name: 'blog',
-  data () {
+  name: "blog",
+  data() {
     return {
       posts: [], // 文章列表
       loadingPost: false, // 是否在加载文章
@@ -87,115 +87,134 @@ export default {
 
       showPost: false, // 查看文章内容
       showingPost: {} // 文章详情
-    }
+    };
   },
   computed: {
-    showingArchive () {
-      return this.archives[this.showArchiveIndex]
+    //计算属性
+    showingArchive() {
+      return this.archives[this.showArchiveIndex];
     },
-    links () {
-      return window.links
+    links() {
+      return window.links;
     },
-    friendLinks () {
-      return window.friendLinks
+    friendLinks() {
+      return window.friendLinks;
     }
   },
   methods: {
-    loadPosts () {
-      const url = urls.issue
-      if (this.noMore) return // 没有更多内容了
+    loadPosts() {
+      const url = urls.issue;
+      if (this.noMore) return; // 没有更多内容了
 
-      this.loadingPost = true
-      fetch(url + '?page=' + this.curPage).then(res => res.json()).then(res => {
-        const posts = res.map(post => {
-          const reg = /\!\[.*\]\((.*)\)/
-          const match = post.body.match(reg); // 找出文中第一张图
-          const sliceNum = 150
-          const cnchars = (post.body.slice(0, sliceNum).match(/[^\x00-\xff]/g) || '').length
-          // console.log(cnchars)
-          return Object.assign({}, post, {
-            short: post.body.slice(0, sliceNum - parseInt(cnchars / 2))
-                .replace(/[\*\#\-\`\>]/g, ' ') + '...',
-            image: match && match[1]
-          })
-        })
-        if (res.length > 0) {
-          this.curPage ++
-        } else {
-          this.noMore = true
-        }
-        this.posts = [].concat(this.posts, posts)
-        this.loadingPost = false
-      })
+      this.loadingPost = true;
+      fetch(url + "?page=" + this.curPage)
+        .then(res => res.json())
+        .then(res => {
+          const posts = res.map(post => {
+            const reg = /\!\[.*\]\((.*)\)/;
+            const match = post.body.match(reg); // 找出文中第一张图
+            const sliceNum = 150;
+            const cnchars = (
+              post.body.slice(0, sliceNum).match(/[^\x00-\xff]/g) || ""
+            ).length;
+            // console.log(cnchars)
+            return Object.assign({}, post, {
+              short:
+                post.body
+                  .slice(0, sliceNum - parseInt(cnchars / 2))
+                  .replace(/\(([^)]*)\)/g,"")
+                  .replace(/[\*\#\-\`\>\[\]]/g, " ") + "...",
+              image: match && match[1]
+            });
+          });
+          console.log(posts);
+          if (res.length > 0) {
+            this.curPage++;
+          } else {
+            this.noMore = true;
+          }
+          this.posts = [].concat(this.posts, posts);
+          this.loadingPost = false;
+        });
     },
-    loadArchives () {
-      const url = urls.milestones
-      if (!url) return
-      fetch(url).then(res => res.json()).then(res => {
-        this.archives = res
-      })
+    loadArchives() {
+      const url = urls.milestones;
+      if (!url) return;
+      fetch(url)
+        .then(res => res.json())
+        .then(res => {
+          this.archives = res;
+        });
     },
-    loadHotPosts () {
-      const url = urls.issue
-      fetch(url + '?sort=comments').then(res => res.json()).then(res => {
-        const hotPosts = res.filter(post => post.comments > -1) // 过滤掉没有评论的
-        this.hotPosts = hotPosts.length > 5 ? hotPosts.slice(0, 5) : hotPosts // 只取前五个
-      })
+    loadHotPosts() {
+      const url = urls.issue;
+      fetch(url + "?sort=comments")
+        .then(res => res.json())
+        .then(res => {
+          const hotPosts = res.filter(post => post.comments > -1); // 过滤掉没有评论的
+          this.hotPosts = hotPosts.length > 5 ? hotPosts.slice(0, 5) : hotPosts; // 只取前五个
+        });
     },
-    readPost (post) {
-      this.showingPost = post
-      this.openPostWindow()
+    readPost(post) {
+      this.showingPost = post;
+      this.openPostWindow();
     },
-    closeArchiveWindow () {
-      allowWindowScroll()
-      this.showArchive = false
-      this.showArchiveIndex = -1
+    closeArchiveWindow() {
+      allowWindowScroll();
+      this.showArchive = false;
+      this.showArchiveIndex = -1;
     },
-    openArchiveWindow (index) {
-      preventWindowScroll()
-      this.showArchive = true
-      this.showArchiveIndex = index
+    openArchiveWindow(index) {
+      preventWindowScroll();
+      this.showArchive = true;
+      this.showArchiveIndex = index;
     },
-    closePostWindow () {
-      allowWindowScroll()
-      this.showPost = false
-      this.showingPost = {}
+    closePostWindow() {
+      allowWindowScroll();
+      this.showPost = false;
+      this.showingPost = {};
     },
-    openPostWindow () {
-      preventWindowScroll()
-      this.showPost = true
+    openPostWindow() {
+      preventWindowScroll();
+      this.showPost = true;
     },
-    onLoaded () {
+    onLoaded() {
       // 数据加载完成后，如果url有变，跳转到指定post
-      const hash = location.hash.replace('#/', '')
-      if (!hash) return
-      const hashInfo = hash.split('/')
-      if (hashInfo[0] === 'post') {
-        this.loadSinglePost(hashInfo[1]).then(res => res.title && this.readPost(res))
+      const hash = location.hash.replace("#/", "");
+      if (!hash) return;
+      const hashInfo = hash.split("/");
+      if (hashInfo[0] === "post") {
+        this.loadSinglePost(hashInfo[1]).then(
+          res => res.title && this.readPost(res)
+        );
       }
     },
-    loadSinglePost (number) {
+    loadSinglePost(number) {
       // 加载指定post
-      const url = urls.issue
-      return fetch(`${url}/${number}`).then(res => res.json())
+      const url = urls.issue;
+      return fetch(`${url}/${number}`).then(res => res.json());
     }
   },
-  created () {
-    this.onLoaded() // 判断是否需要加载指定post
-    this.loadPosts(0)
-    this.loadArchives()
-    this.loadHotPosts()
+  created() {
+    this.onLoaded(); // 判断是否需要加载指定post
+    this.loadPosts(0);
+    this.loadArchives();
+    this.loadHotPosts();
   },
   components: {
-    Post, Archives, Hot, ArchiveDetail, PostDetail
+    Post,
+    Archives,
+    Hot,
+    ArchiveDetail,
+    PostDetail
   }
-}
+};
 </script>
 <style>
-@import './style/animation.css';
-@import './style/global.css';
+@import "./style/animation.css";
+@import "./style/global.css";
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
   /*手机屏幕 <768px*/
   .layout {
     width: 100%;
@@ -216,7 +235,7 @@ export default {
     box-sizing: border-box;
   }
   #main-container {
-  flex-wrap: wrap;
+    flex-wrap: wrap;
   }
   #post-container {
     width: 100%;
@@ -231,19 +250,19 @@ export default {
     font-size: 0.8rem;
   }
 }
-@media screen and (max-width: 1200px){
+@media screen and (max-width: 1200px) {
   /*平板屏幕 >768px <992x*/
   .layout {
-    width: 100%!important;
+    width: 100% !important;
   }
 }
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
   /*大屏幕 >992px*/
   .layout {
     width: 60%;
   }
   #banner {
-    height: 400px;;
+    height: 400px;
   }
   #motto {
     font-size: 100px;
@@ -293,7 +312,7 @@ export default {
 }
 
 #links a:after {
-  content: '';
+  content: "";
   width: 100%;
   height: 3px;
   background-color: #eee;
