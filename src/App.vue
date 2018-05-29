@@ -335,9 +335,10 @@ export default {
 }
 
 #banner {
-  background-image: url("//hbfile.b0.upaiyun.com/img/home/banner/298258a2967dbfcf3cdc4fdcc6daa472ce1c2e2bd35d6");
+  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304600052.webp");
   background-size: cover;
   background-position-x: center;
+  background-position-y: 40%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -345,7 +346,7 @@ export default {
 
 #motto {
   color: #fff;
-  text-shadow: 0 5px 5px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 5px 5px rgba(111, 111, 111, 0.5);
 }
 
 #archives {
@@ -377,9 +378,10 @@ export default {
   position: absolute;
   top: 0;
   z-index: -1;
-  background-image: url("//hbfile.b0.upaiyun.com/img/home/banner/298258a2967dbfcf3cdc4fdcc6daa472ce1c2e2bd35d6");
+  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304600052.webp");
   background-size: cover;
   background-position-x: center;
+  background-position-y: bottom;
   box-sizing: border-box;
   filter: blur(20px) brightness(70%);
   transform: scale(1.5);

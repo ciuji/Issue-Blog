@@ -137,7 +137,8 @@ export default {
   background-color: #eee;
   padding: 20px 15px;
   box-sizing: border-box;
-  background-image: url("//hbfile.b0.upaiyun.com/img/home/banner/8e4250cfdc09ada434ee58540106c49070bd6ac6d551f");
+  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599983.webp");
+  background-position-x:50%;
   background-size: cover;
 }
 #ar-title {

@@ -64,7 +64,7 @@ export default {
     display: flex;
   }
   .milestone {
-    background-image: url("//hbfile.b0.upaiyun.com/img/home/banner/298258a2967dbfcf3cdc4fdcc6daa472ce1c2e2bd35d6");
+    background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599983.webp");
     box-sizing: border-box;
     cursor: pointer;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);

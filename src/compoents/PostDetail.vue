@@ -211,7 +211,8 @@ export default {
   background-color: #eee;
   padding: 20px 15px;
   box-sizing: border-box;
-  background-image: url("http://img.zcool.cn/community/012cad59572a46a8012193a3c3048e.jpg@900w_1l_2o_100sh.jpg");
+  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599972.webp");
+  background-position-x:40%;
   background-size: cover;
 }
 #pd-title {

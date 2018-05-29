@@ -30,7 +30,7 @@ export default {
   font-size: 20px;
   padding: 20px 15px;
   font-weight: bold;
-  color: #608aa5;
+  color: #000;
 }
 #hot-en {
   font-weight: lighter;
@@ -49,7 +49,7 @@ export default {
   color: #eb9686;
 }
 .hot-title {
-  color: #608aa5;
+  color: #000;
   font-size: 14px;
   font-weight: bold;
 }
