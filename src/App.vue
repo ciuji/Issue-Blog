@@ -25,6 +25,7 @@
       <div class="xs-hidden hot-articles">
         <Hot :hotPosts="hotPosts" v-on:readPost="readPost"/>
       </div>
+      <div id="return-top" @click="returnTop"></div>
     </div>
     <ArchiveDetail v-if="showArchive" :archive="showingArchive"
       v-on:closeArchiveWindow="closeArchiveWindow"
@@ -37,7 +38,7 @@
           Theme by <a href="https://github.com/Yidadaa/issue-blog">ISSUE-BLOG</a>.
         </div>
         <div class="footer-links">
-          <span>友情♂链接:</span>
+          <span>友情链接:</span>
           <a :href="link[1]" v-for="(link, index) in friendLinks" :key="index">{{link[0]}}</a>
         </div>
       </div>
@@ -71,6 +72,14 @@ const allowWindowScroll = () => {
   document.body.style.paddingRight = `0px`;
 };
 
+window.onscroll = () => {
+  if (document.body.getBoundingClientRect().top < -1000) {
+    document.getElementById('return-top').className = 'show-top-btn'
+  } else {
+    document.getElementById('return-top').className = ''
+  }
+}
+
 export default {
   name: "blog",
   data() {
@@ -86,8 +95,8 @@ export default {
       showArchiveIndex: -1,
 
       showPost: false, // 查看文章内容
-      showingPost: {} // 文章详情
-    };
+      showingPost: {}, // 文章详情
+    }
   },
   computed: {
     //计算属性
@@ -97,8 +106,11 @@ export default {
     links() {
       return window.links;
     },
-    friendLinks() {
-      return window.friendLinks;
+    friendLinks () {
+      return window.friendLinks
+    },
+    motto () {
+      return window.motto
     }
   },
   methods: {
@@ -191,8 +203,11 @@ export default {
     },
     loadSinglePost(number) {
       // 加载指定post
-      const url = urls.issue;
-      return fetch(`${url}/${number}`).then(res => res.json());
+      const url = urls.issue.url
+      return fetch(`${url}/${number}`).then(res => res.json())
+    },
+    returnTop () {
+      window.scrollTo(0, 0)
     }
   },
   created() {
@@ -236,6 +251,7 @@ export default {
   }
   #main-container {
     flex-wrap: wrap;
+    position: relative;
   }
   #post-container {
     width: 100%;
@@ -384,7 +400,6 @@ export default {
   background-position-y: bottom;
   box-sizing: border-box;
   filter: blur(20px) brightness(70%);
-  transform: scale(1.5);
 }
 
 #footer-content {
@@ -392,14 +407,6 @@ export default {
   color: #fff;
   text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
   padding: 20px;
-  /* border: 2px solid rgba(255, 255, 255, 0.5); */
-  /* background: linear-gradient(to bottom right,
-    rgba(255, 255, 255, 0.8),
-    rgba(255, 255, 255, 0.4),
-    rgba(255, 255, 255, 0.5),
-    rgba(255, 255, 255, 0.4),
-    rgba(255, 255, 255, 0.8)
-  ); */
   line-height: 1.5;
 }
 .footer-links {
@@ -411,5 +418,27 @@ export default {
 .footer-links a {
   color: #fff;
   margin-right: 5px;
+}
+#return-top {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  height: 50px;
+  width: 50px;
+  background-color: #fff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACzElEQVR4Xu2b7XHUMBCGX1UAHUAHQAXJXgMkFZBUQKgA6CB0kBJCA6ekgkAHoYN0oMzOyMZxLFsfq/WMLf3y+HQ6vY9WK61WZ7DzYjr91tq3AL4DuADAz1ssjwBuiOhnJ24I4BrA1y2qntB0TkS3/L4HcDwe74wxJzsB8IuIrl4AsNYykc87AfCNiNji/1uAtfa9c46t4N2WITjn7o0xZ0T09ALAwBmebhjAExH9GerrfcCGRc9KawD2OvKv9gF7BbHaFOBVB8AXD/732DlpDcgqAKy1HwHY0Zb7kohutISvNgUC4rv+qENQtYAF8atAUAMQKV4dggqARPGqEKoDyBSvBqEqgELxKhCqARASXx1CFQBL4p1zf40xH4ZrvnPuH+8LjDFvAnuBKkukOIAl8QAuAfAukM8f++Lj9Ct/JqEGQRRAjHje7Vlrf0wBOBwOp9yGJgQxALHiecjnAPjP1SCIAEgRHwNAE0IxgFTxsQC0IBQByBGfAkADQjaAXPGpAGpDyAJQIj4HQE0IyQBKxecCqAUhCYCE+BIANSBEA5ASXwpAGkIUAEnxEgAkISwCkBYvBUAKwiyAGuIlAUhACALwN0YefOQ2FaFmh6dLsUAgHA6+XgigOAv8iYj4dsirMgeAs8R8di8qXtoCus4tQOjvA4zFzAHg5AVbwLhkj/ygs8FwOHX0h/VnIPRXYqIB+JHiTE2XvuJXxeJrWUDIEvighc8ZQmBjVwFu4DY0j1JHTdoHjH/f+68zAI9EdDfXv0UAqeJi6tcGENOHrk4DkEJLqm6zgJlDUSnIse20KRBLSrJemwJtCoQTI5KWFtNW8wExlKTrNB/QfEDzAVXC4Zyp2pxgDrXS7zQn2Jxgc4LNCYbuCJX6l9Tvt1UglZhE/bYKTKwCAPhfI3ySq1rWmgJTWSeRnEMqvVUA+OTIhXOOVwO+HntNRPysXp4BhQajX7NS3goAAAAASUVORK5CYII=);
+  background-size: 30px 30px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  cursor: pointer;
+  transition: transform ease .3s;
+  transform: translateY(200px);
+  z-index: 9999;
+}
+
+.show-top-btn {
+  transform: translateY(0)!important;
 }
 </style>
