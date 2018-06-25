@@ -114,58 +114,45 @@ export default {
     }
   },
   methods: {
-    loadPosts() {
-      const url = urls.issue;
-      if (this.noMore) return; // 没有更多内容了
-
-      this.loadingPost = true;
-      fetch(url + "?page=" + this.curPage)
-        .then(res => res.json())
-        .then(res => {
-          const posts = res.map(post => {
-            const reg = /\!\[.*\]\((.*)\)/;
-            const match = post.body.match(reg); // 找出文中第一张图
-            const sliceNum = 150;
-            const cnchars = (
-              post.body.slice(0, sliceNum).match(/[^\x00-\xff]/g) || ""
-            ).length;
-            // console.log(cnchars)
-            return Object.assign({}, post, {
-              short:
-                post.body
-                  .slice(0, sliceNum - parseInt(cnchars / 2))
-                  .replace(/\(([^)]*)\)/g,"")
-                  .replace(/[\*\#\-\`\>\[\]]/g, " ") + "...",
-              image: match && match[1]
-            });
-          });
-          console.log(posts);
-          if (res.length > 0) {
-            this.curPage++;
-          } else {
-            this.noMore = true;
-          }
-          this.posts = [].concat(this.posts, posts);
-          this.loadingPost = false;
-        });
+    loadPosts () {
+      const url = urls.issue
+      if (this.noMore) return // 没有更多内容了
+      this.loadingPost = true
+      fetch(url.query({ page: this.curPage })).then(res => res.json()).then(res => {
+        const posts = res.map(post => {
+          const reg = /\!\[.*\]\((.*)\)/
+          const match = post.body.match(reg); // 找出文中第一张图
+          const sliceNum = 150
+          const cnchars = (post.body.slice(0, sliceNum).match(/[^\x00-\xff]/g) || '').length
+          // console.log(cnchars)
+          return Object.assign({}, post, {
+            short: post.body.slice(0, sliceNum - parseInt(cnchars / 2))
+                .replace(/[\*\#\-\`\>]/g, ' ') + '...',
+            image: match && match[1]
+          })
+        })
+        if (res.length > 0) {
+          this.curPage ++
+        } else {
+          this.noMore = true
+        }
+        this.posts = [].concat(this.posts, posts)
+        this.loadingPost = false
+      })
     },
-    loadArchives() {
-      const url = urls.milestones;
-      if (!url) return;
-      fetch(url)
-        .then(res => res.json())
-        .then(res => {
-          this.archives = res;
-        });
+    loadArchives () {
+      const url = urls.milestones.url
+      if (!url) return
+      fetch(url).then(res => res.json()).then(res => {
+        this.archives = res
+      })
     },
-    loadHotPosts() {
-      const url = urls.issue;
-      fetch(url + "?sort=comments")
-        .then(res => res.json())
-        .then(res => {
-          const hotPosts = res.filter(post => post.comments > -1); // 过滤掉没有评论的
-          this.hotPosts = hotPosts.length > 5 ? hotPosts.slice(0, 5) : hotPosts; // 只取前五个
-        });
+    loadHotPosts () {
+      const url = urls.issue
+      fetch(url.query({ sort: 'comments' })).then(res => res.json()).then(res => {
+        const hotPosts = res.filter(post => post.comments > -1) // 过滤掉没有评论的
+        this.hotPosts = hotPosts.length > 5 ? hotPosts.slice(0, 5) : hotPosts // 只取前五个
+      })
     },
     readPost(post) {
       this.showingPost = post;
