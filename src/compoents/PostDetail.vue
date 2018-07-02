@@ -211,8 +211,8 @@ export default {
   background-color: #eee;
   padding: 20px 15px;
   box-sizing: border-box;
-  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599972.webp");
-  background-position-x:40%;
+  background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/p2304599977.jpg");
+  background-position-x:70%;
   background-size: cover;
 }
 #pd-title {

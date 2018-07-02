@@ -64,7 +64,7 @@ export default {
     display: flex;
   }
   .milestone {
-    background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599983.webp");
+    background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/archive.jpg");
     box-sizing: border-box;
     cursor: pointer;
     box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
