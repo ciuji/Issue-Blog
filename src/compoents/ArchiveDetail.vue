@@ -137,7 +137,7 @@ export default {
   background-color: #eee;
   padding: 20px 15px;
   box-sizing: border-box;
-  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304599983.webp");
+  background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/p2304599977.jpg");
   background-position-x:50%;
   background-size: cover;
 }

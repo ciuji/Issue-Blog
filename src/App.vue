@@ -338,7 +338,7 @@ export default {
 }
 
 #banner {
-  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304600052.webp");
+  background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/app2.jpg");
   background-size: cover;
   background-position-x: center;
   background-position-y: 40%;
@@ -381,7 +381,7 @@ export default {
   position: absolute;
   top: 0;
   z-index: -1;
-  background-image: url("https://img3.doubanio.com/view/photo/l/public/p2304600052.webp");
+  background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/archive.jpg");
   background-size: cover;
   background-position-x: center;
   background-position-y: bottom;
@@ -415,7 +415,7 @@ export default {
   background-color: #fff;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
   border-radius: 5px;
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACzElEQVR4Xu2b7XHUMBCGX1UAHUAHQAXJXgMkFZBUQKgA6CB0kBJCA6ekgkAHoYN0oMzOyMZxLFsfq/WMLf3y+HQ6vY9WK61WZ7DzYjr91tq3AL4DuADAz1ssjwBuiOhnJ24I4BrA1y2qntB0TkS3/L4HcDwe74wxJzsB8IuIrl4AsNYykc87AfCNiNji/1uAtfa9c46t4N2WITjn7o0xZ0T09ALAwBmebhjAExH9GerrfcCGRc9KawD2OvKv9gF7BbHaFOBVB8AXD/732DlpDcgqAKy1HwHY0Zb7kohutISvNgUC4rv+qENQtYAF8atAUAMQKV4dggqARPGqEKoDyBSvBqEqgELxKhCqARASXx1CFQBL4p1zf40xH4ZrvnPuH+8LjDFvAnuBKkukOIAl8QAuAfAukM8f++Lj9Ct/JqEGQRRAjHje7Vlrf0wBOBwOp9yGJgQxALHiecjnAPjP1SCIAEgRHwNAE0IxgFTxsQC0IBQByBGfAkADQjaAXPGpAGpDyAJQIj4HQE0IyQBKxecCqAUhCYCE+BIANSBEA5ASXwpAGkIUAEnxEgAkISwCkBYvBUAKwiyAGuIlAUhACALwN0YefOQ2FaFmh6dLsUAgHA6+XgigOAv8iYj4dsirMgeAs8R8di8qXtoCus4tQOjvA4zFzAHg5AVbwLhkj/ygs8FwOHX0h/VnIPRXYqIB+JHiTE2XvuJXxeJrWUDIEvighc8ZQmBjVwFu4DY0j1JHTdoHjH/f+68zAI9EdDfXv0UAqeJi6tcGENOHrk4DkEJLqm6zgJlDUSnIse20KRBLSrJemwJtCoQTI5KWFtNW8wExlKTrNB/QfEDzAVXC4Zyp2pxgDrXS7zQn2Jxgc4LNCYbuCJX6l9Tvt1UglZhE/bYKTKwCAPhfI3ySq1rWmgJTWSeRnEMqvVUA+OTIhXOOVwO+HntNRPysXp4BhQajX7NS3goAAAAASUVORK5CYII=);
+  background-image: url("https://raw.githubusercontent.com/ciuji/ciuji.github.io/master/_photos/archive.jpg");
   background-size: 30px 30px;
   background-repeat: no-repeat;
   background-position: center center;
