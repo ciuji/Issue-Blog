@@ -16,6 +16,8 @@
               <span># {{ comments.length }}条评论</span>
               <a :href="commentURL" class="comment-btn">添加评论</a>
             </div>
+            <div class="loading-comment" v-if="loading">评论加载中</div>
+            <div class="loading-comment" v-if="!loading && comments.length === 0">还没有评论</div>
             <div class="comment" v-for="comment in comments"
               :key="comment.id">
               <div class="comment-left">
@@ -43,24 +45,30 @@ export default {
       comments: [],
       oldTitle: '',
       loading: false,
-      commentURL: urls.newComment.replace('{number}', this.post.number)
+      commentURL: urls.newComment.replace({ number: this.post.number })
     }
   },
   computed: {
     content () {
-      return this.post && this.post.body 
-        && this.processImg(marked(this.post.body))
+      return this.post && this.post.body &&
+        this.processMath(marked(this.post.body))
     }
   },
   methods: {
     close () {
       this.$emit('closePostWindow')
     },
-    processImg (html) {
-      // 处理文章中的图片，变成可点击的链接
-      // return html.replace(/<img src="(.*)"\salt(.*)">/g,
-      //   (text,href)=>`<a href='${href}' target='_blank'>${text}</a>`)
-      return html;
+    processMath (html) {
+      // 处理文章中的公式，使用katex渲染
+      return html.replace(/\$\$(.*?)\$\$/g, (text, math) => {
+        return window.katex.renderToString(math, {
+          displayMode: true
+        }) // 处理行间公式
+      }).replace(/\$(.*?)\$/g, (text, math) => {
+        return window.katex.renderToString(math, {
+          displayMode: false
+        }) // 处理行内公式
+      })
     },
     clickImg (evt) {
       const Viewer = window.Viewer
@@ -75,15 +83,11 @@ export default {
       fetch(urls.comment.replace({ number: this.post.number })).then(res => res.json())
         .then(res => {
           this.comments = res
-      })
-      this.loading = false
+          this.loading = false
+        })
     }
   },
   created () {
-    /**Todo:
-     * - 加载评论
-     */
-    
     history.pushState({}, '', `/#/post/${this.post.number}`)
     this.oldTitle = document.title
     document.title = this.post.title
@@ -244,6 +248,10 @@ export default {
 #pd-html a {
   color: #67aeeb;
 }
+#pd-html a img {
+  width: auto;
+  max-width: 100%;
+}
 
 #pd-html pre {
   background: #f8f8f8;
@@ -323,6 +331,12 @@ export default {
 
 .comment-btn {
   color: dodgerblue;
+}
+
+.loading-comment {
+  text-align: center;
+  font-size: 14px;
+  color: #aaa;
 }
 
 </style>
