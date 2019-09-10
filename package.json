@@ -12,15 +12,8 @@
     "publish": "node build/publish.js"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "macaddress": "^0.2.9",
-    "marked": "^0.3.6",
-    "url-parse": "^1.4.3",
-    "vue": "^2.4.4"
-=======
     "marked": "^0.6.2",
     "vue": "^2.5.2"
->>>>>>> 4f9eb7268b341d207a0627b6604bee64c0ed8e20
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
